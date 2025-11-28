@@ -507,7 +507,7 @@ def solve_sci(
     myci = fci.selected_ci.SelectedCI()
     if ci_coeff_cutoff is not None:
         myci.ci_coeff_cutoff = ci_coeff_cutoff
-
+                                     
     if spin_sq is not None:
         myci = fci.addons.fix_spin_(myci, ss=spin_sq)
 
