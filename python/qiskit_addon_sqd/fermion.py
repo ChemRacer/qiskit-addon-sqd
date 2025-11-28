@@ -479,6 +479,7 @@ def solve_sci(
     two_body_tensor: np.ndarray,
     norb: int,
     nelec: tuple[int, int],
+    ci_coeff_cutoff: float | None = None,
     *,
     spin_sq: float | None = None,
     **kwargs,
@@ -493,6 +494,7 @@ def solve_sci(
         two_body_tensor: The two-body tensor of the Hamiltonian.
         norb: The number of spatial orbitals.
         nelec: The numbers of alpha and beta electrons.
+        ci_coeff_cutoff: Control the cutoff values of the CI coefficients. 
         spin_sq: Target value for the total spin squared for the ground state.
             If ``None``, no spin will be imposed.
         **kwargs: Keyword arguments to pass to `pyscf.fci.selected_ci.kernel_fixed_space <https://pyscf.org/pyscf_api_docs/pyscf.fci.html#pyscf.fci.selected_ci.kernel_fixed_space>`_
@@ -503,6 +505,9 @@ def solve_sci(
     norb, _ = one_body_tensor.shape
 
     myci = fci.selected_ci.SelectedCI()
+    if ci_coeff_cutoff is not None:
+        myci.ci_coeff_cutoff = ci_coeff_cutoff
+
     if spin_sq is not None:
         myci = fci.addons.fix_spin_(myci, ss=spin_sq)
 
